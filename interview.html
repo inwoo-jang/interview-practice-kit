@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>실전모드 · 화상면접</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="lens"><a href="index.html" class="home">← 홈</a>▲ 렌즈는 여기 · 질문도 여기서 읽기</div>
+
+<header id="qbar">
+  <div id="qmeta"></div>
+  <div id="qtext">카메라를 켜고 시작하세요</div>
+  <div id="phase"></div>
+</header>
+
+<main>
+  <section id="stage">
+    <div id="vwrap">
+      <div id="vbox">
+        <video id="cam" autoplay playsinline muted></video>
+        <canvas id="overlay"></canvas>
+        <div id="vq"></div>
+        <div id="selfoff">셀프뷰 꺼짐 — 렌즈만 보세요</div>
+        <div id="hud">
+          <div class="chip" id="hTime">--</div>
+          <div class="chip" id="hGaze">시선 --</div>
+          <div class="chip" id="hSmile">미소 --</div>
+          <div class="chip" id="hSpeed">속도 --</div>
+        </div>
+        <div id="gauges">
+          <label>미소<span class="gb"><i id="gSmile"></i></span></label>
+          <label>시선<span class="gb"><i id="gGaze"></i></span></label>
+          <label>목소리<span class="gb"><i id="gVol"></i></span></label>
+        </div>
+        <div id="nudge"></div>
+        <div id="bigcount"></div>
+      </div>
+      <div id="sub"></div>
+    </div>
+    <div id="meters">
+      <label>미소 <span class="bar"><i id="mSmile"></i></span></label>
+      <label>목소리 <span class="bar"><i id="mVol"></i></span></label>
+      <label>시선 <span class="bar"><i id="mGaze"></i></span></label>
+    </div>
+    <div id="live"></div>
+    <div id="controls">
+      <button id="bCam" class="primary">카메라 켜기</button>
+      <button id="bStart" disabled>연습 시작 <kbd>Enter</kbd></button>
+      <button id="bNext" disabled>답변 시작/종료 <kbd>Space</kbd></button>
+      <button id="bSkip" disabled>다음 질문 <kbd>N</kbd></button>
+      <button id="bCalib" disabled>시선 보정</button>
+    </div>
+  </section>
+
+  <aside>
+    <nav id="tabs">
+      <button data-tab="setup" class="on">설정</button>
+      <button data-tab="report">리포트</button>
+      <button data-tab="check">카메라·표정</button>
+      <button data-tab="scripts">스크립트</button>
+      <button data-tab="history">기록</button>
+    </nav>
+
+    <div class="tab on" id="t-setup">
+      <h3>모드</h3>
+      <div class="seg" id="mode">
+        <label><input type="radio" name="mode" value="normal" checked> 일반 <small>준비 30초</small></label>
+        <label><input type="radio" name="mode" value="surprise"> 돌발 <small>준비 3초 · 꼬리질문 섞임</small></label>
+        <label><input type="radio" name="mode" value="set"> 실전 세트 <small>자기소개→5문항→마지막 말</small></label>
+      </div>
+      <h3>카테고리</h3>
+      <div id="cats"></div>
+      <h3>세부</h3>
+      <label class="row">준비 시간 <input type="range" id="prep" min="0" max="60" step="5" value="30"> <b id="prepV">30초</b></label>
+      <label class="row">시선 민감도 <input type="range" id="sens" min="0.12" max="0.4" step="0.02" value="0.22"> <b id="sensV">보통</b></label>
+      <label class="row"><input type="checkbox" id="order"> 순서대로(끄면 랜덤)</label>
+      <label class="row"><input type="checkbox" id="realMode"> 실전처럼: 셀프뷰·실시간 지표 숨기기</label>
+      <label class="row"><input type="checkbox" id="nudgeOn" checked> 10초 안에 결론 안 나오면 알림</label>
+      <label class="row"><input type="checkbox" id="guideOn" checked> 눈높이 가이드(초록 띠·가운데 점선) 보이기</label>
+      <label class="row"><input type="checkbox" id="autoSave" checked> 답변 영상 + 리포트(PDF) 자동 저장 (다운로드 폴더 · 파일명에 질문 번호)</label>
+      <p class="hint">처음 한 번은 <b>시선 보정</b>을 하세요. 렌즈를 3초 보면 그 상태를 기준으로 시선을 잽니다.<br>
+      Chrome에서만 음성 인식이 됩니다. 마이크·카메라 권한을 허용하세요.</p>
+    </div>
+
+    <div class="tab" id="t-report"><p class="hint">답변을 마치면 여기에 리포트가 나옵니다.</p></div>
+
+    <div class="tab" id="t-check">
+      <h3>지금 상태</h3>
+      <div id="envList"></div>
+      <h3>표정·시선 연습</h3>
+      <div class="drill">
+        <button id="dSmile">미소 3초 유지 ×5</button>
+        <p class="hint">렌즈를 보면서 자연스러운 미소(입꼬리 + 눈웃음)를 3초 유지. 5번 성공하면 끝.</p>
+      </div>
+      <div class="drill">
+        <button id="dGaze">렌즈 응시 30초</button>
+        <p class="hint">위쪽 질문 칸에 나오는 스크립트를 소리 내 읽으며 렌즈에서 눈을 떼지 않기.</p>
+      </div>
+      <div class="drill">
+        <button id="dListen">경청 표정 20초</button>
+        <p class="hint">면접관 질문을 듣는 동안의 얼굴. 무표정 대신 옅은 미소 + 가끔 끄덕임.</p>
+      </div>
+      <div id="drillOut"></div>
+    </div>
+
+    <div class="tab" id="t-scripts"><div id="scriptList"></div></div>
+
+    <div class="tab" id="t-history">
+      <div id="histSummary"></div>
+      <div class="row">
+        <button id="bExport">기록 내보내기(JSON)</button>
+        <button id="bClear" class="ghost">기록 지우기</button>
+      </div>
+      <div id="histList"></div>
+    </div>
+  </aside>
+</main>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

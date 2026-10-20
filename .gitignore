@@ -1,0 +1,19 @@
+.venv/
+.DS_Store
+__pycache__/
+# 다시 만들 수 있는 묶음 음성 (make_tts.py가 생성)
+audio/취침용/
+audio/쉐도잉/
+audio/샘플/
+*.png
+# 개인 질문·음성 (각자 로컬에만)
+questions.json
+questions.md
+audio/q/
+audio/a/
+audio/.cache.json
+_*.html
+read_as.local.json
+elevenlabs_key.local
+*.env
+.env

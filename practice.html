@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>연습모드 · 면접 스크립트</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="practice.css">
+</head>
+<body>
+<header class="ptop">
+  <a href="index.html" class="back">← 홈</a>
+  <h1>연습모드</h1>
+  <input id="search" type="search" placeholder="검색">
+  <div id="catChips"></div>
+  <div class="qtools">
+    <button id="tAdd">+ 질문 추가</button>
+    <button id="tImport">md 가져오기</button>
+    <button id="tExport" class="ghost">md 내보내기</button>
+    <a id="tTemplate" class="ghost btnlike" href="질문_템플릿.md" download>템플릿 받기</a>
+    <button id="tMeta" class="ghost">면접 이름·날짜</button>
+    <button id="tVoice" class="ghost">🔊 음성 설정</button>
+    <input id="tFile" type="file" accept=".md,.txt,text/markdown" hidden>
+  </div>
+</header>
+<div id="banner"></div>
+
+<div class="pmain">
+  <section id="list"></section>
+
+  <aside id="player">
+    <div class="np">
+      <div id="npMeta" class="dim"></div>
+      <div id="npQ"></div>
+      <div id="npTurn"></div>
+      <div id="npA"></div>
+      <button id="reveal" class="ghost" hidden>스크립트 보기</button>
+    </div>
+
+    <div class="ctl">
+      <button id="pPrev" title="이전">⏮</button>
+      <button id="pPlay" class="primary big">▶ 전체 재생</button>
+      <button id="pNext" title="다음">⏭</button>
+      <button id="pDone" hidden>다 말했어요 →</button>
+    </div>
+
+    <div class="opts">
+      <div class="seg" id="pMode">
+        <label><input type="radio" name="pm" value="listen" checked> 듣기</label>
+        <label><input type="radio" name="pm" value="shadow"> 쉐도잉</label>
+        <label><input type="radio" name="pm" value="answer"> 답변만</label>
+      </div>
+      <label class="row" id="thinkRow">내 차례 <input type="range" id="think" min="5" max="90" step="5" value="45"> <b id="thinkV">45초</b></label>
+      <label class="row"><input type="checkbox" id="recMine"> 내 답 녹음·비교</label>
+      <label class="row">속도
+        <select id="rate"><option>0.8</option><option>0.9</option><option selected>1.0</option><option>1.1</option><option>1.2</option></select>
+        간격 <select id="gap"><option value="1">1초</option><option value="3" selected>3초</option><option value="6">6초</option></select>
+      </label>
+      <label class="row"><input type="checkbox" id="blind"> 스크립트 가리기</label>
+      <label class="row"><input type="checkbox" id="loopOne"> 한 문항 반복</label>
+      <label class="row"><input type="checkbox" id="shuffle"> 섞어서 재생</label>
+      <label class="row">취침 타이머
+        <select id="sleepT"><option value="0">끔</option><option value="15">15분</option><option value="30">30분</option><option value="45">45분</option><option value="60">60분</option></select>
+        <b id="sleepLeft" class="dim"></b>
+      </label>
+    </div>
+
+    <details class="bed">
+      <summary>통파일 (취침용·쉐도잉)</summary>
+      <div id="bedFiles"></div>
+      <button id="reconcat" class="ghost">통파일 다시 만들기</button>
+    </details>
+  </aside>
+</div>
+
+<dialog id="modal"><form method="dialog" id="mForm"><h3 id="mTitle"></h3><div id="mBody" class="ed"></div><div id="mActs" class="mActs"></div></form></dialog>
+<script type="module" src="practice.js"></script>
+</body>
+</html>
